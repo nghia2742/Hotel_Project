@@ -1,3 +1,34 @@
+<?php
+$detail = $data['detailRoom'];
+
+$name = $_SESSION['infoBook'][0];
+$phone = $_SESSION['infoBook'][1];
+$email = $_SESSION['infoBook'][2];
+$dateFrom = $_SESSION['infoBook'][3];
+$dateTo = $_SESSION['infoBook'][4];
+$adult = $_SESSION['infoBook'][5];
+$children = $_SESSION['infoBook'][6];
+$extSer1 = $_SESSION['infoBook'][7];
+$extSer2 = $_SESSION['infoBook'][8];
+$countSer = 0;
+if ($extSer1 == 0 || $extSer2 == 0) {
+    $countSer = 1;
+} else {
+    $countSer = 2;
+}
+
+$dateFrom = date('d-m-Y', strtotime($dateFrom));
+$dateTo = date('d-m-Y', strtotime($dateTo));
+$numNights = (int)$dateTo - (int)$dateFrom;
+
+$subTotal = (round($detail['price'] * $_SESSION['currency'] * $numNights, 3));
+$taxes = (round($detail['price'] * $_SESSION['currency'] * 0.1, 3));
+$feeCleaning = (round(10 * $_SESSION['currency'], 3));
+$extra = (round(($extSer1 + $extSer2) * $_SESSION['currency'], 3));
+
+$totalPrice = (int)$subTotal + (int)$taxes + (int)$feeCleaning + (int)$extra;
+?>
+
 <div class="wrapper_detail">
     <div class="process-wrap text-center">
         <div class="process-main row">
@@ -42,130 +73,113 @@
         </a>
     </p>
     <div class="collapse" id="contentId">
-        <div class="guestInformation">
-            <div class="guestInfo">
-                <h2 class="mb-5 pl-3 bg-info py-3 text-light rounded">Your information</h2>
-                <div class="mb-5 d-flex align-items-center">
-                    <label for="" class="form-label">Full name:</label>
-                    <input type="text" name="" id="" class="form-control ml-3">
-                </div>
-                <div class="mb-5 d-flex align-items-center">
-                    <label for="" class="form-label">Address:</label>
-                    <input type="text" name="" id="" class="form-control ml-3">
-                </div>
-                <div class="mb-5 d-flex align-items-center">
-                    <label for="" class="form-label">Email:</label>
-                    <input type="text" name="" id="" class="form-control ml-3">
-                </div>
-                <div class="mb-5 d-flex align-items-center">
-                    <label for="" class="form-label">Phone:</label>
-                    <input type="text" name="" id="" class="form-control ml-3">
-                </div>
+    <div class="guestInformation">
+        <div class="guestInfo">
+            <h2 class="mb-5 pl-3 bg-info py-3 text-light rounded">Your information</h2>
+            <div class="mb-5 d-flex align-items-center">
+                <label for="" class="form-label">Full name:</label>
+                <span><i><?=$name?></i></span>
+            </div>
+            <div class="mb-5 d-flex align-items-center">
+                <label for="" class="form-label">Email: </label>
+                <span><i><?=$email?></i></span>
+                <input type="hidden" value="<?=$email?>" class="form-control ml-3">
+            </div>
+            <div class="mb-5 d-flex align-items-center">
+                <label for="" class="form-label">Phone: </label>
+                <span><i><?=$phone?></i></span>
+                <input type="hidden" value="<?=$phone?>" class="form-control ml-3">
+            </div>
 
-            </div>
         </div>
-        <div class="roomInformation">
-            <h2 class="mb-5 pl-3 bg-info py-3 text-light rounded">Your room information </h2>
-            <div class="mb-5 d-flex align-items-center">
-                <label for="" class="form-label">Name's room:</label>
-                <span><i>Standard Marvelous Beach</i></span>
-                <input type="hidden" name="" id="" class="form-control ml-3">
-            </div>
-            <div class="mb-5 d-flex align-items-center">
-                <label for="" class="form-label">Location:</label>
-                <span><i>Nha Trang</i></span>
-                <input type="hidden" name="" id="" class="form-control ml-3">
-            </div>
-            <div class="mb-5 d-flex align-items-center">
-                <label for="" class="form-label">Date:</label>
-                <span><i>26/11/2022</i></span>
-                <input type="hidden" name="" id="" class="form-control ml-3">
-                &nbsp;&rarr;&nbsp;
-                <span><i>28/11/2022</i></span>
-                <input type="hidden" name="" id="" class="form-control ml-3">
-                &nbsp;
-                <span class="fs-5"><i>(Total length of stay: <b>2 nights</b> )</i></span>
-            </div>
-            <div class="mb-5 d-flex align-items-center">
-                <label for="" class="form-label">Member:</label>
-                <span><i>2 Adults</i></span>
-                <input type="hidden" name="" id="" class="form-control ml-3">
-                ,&nbsp;
-                <span><i>0 Children</i></span>
-                <input type="hidden" name="" id="" class="form-control ml-3">
-            </div>
+    </div>
+    <div class="roomInformation">
+        <h2 class="mb-5 pl-3 bg-info py-3 text-light rounded">Your room information </h2>
+        <div class="mb-5 d-flex align-items-center">
+            <label for="" class="form-label">Name's room:</label>
+            <span><i><?=$detail['nameRoom']?></i></span>
         </div>
+        <div class="mb-5 d-flex align-items-center">
+            <label for="" class="form-label">Location:</label>
+            <span><i><?=$detail['location']?></i></span>
+        </div>
+        <div class="mb-5 d-flex align-items-center">
+            <label for="" class="form-label">Date:</label>
+            <span><i><?=$dateFrom?></i></span>
+            &nbsp;&rarr;&nbsp;
+            <span><i><?=$dateTo?></i></span>
+            &nbsp;
+            <span class="fs-5"><i>(Total length of stay: <b><?=$numNights?> nights</b> )</i></span>
+        </div>
+        <div class="mb-5 d-flex align-items-center">
+            <label for="" class="form-label">Member:</label>
+            <span><i><?=$adult?> Adults</i></span>
+            ,&nbsp;
+            <span><i><?=$children?> Children</i></span>
+        </div>
+    </div>
         <div class="bill">
             <h2 class="mb-5 pl-3 bg-info py-3 text-light rounded">Your Bill</h2>
-            <div>
-                <div>Choose your payment method:</div>
-                <div class="my-3 px-5 d-flex justify-content-around">
-                    <div>
-                        <input type="radio" name="paymentMethod" id="payLater">
-                        <label for="payLater">Pay later</label>
-                    </div>
-                    <div>
-                        <input type="radio" name="paymentMethod" id="visaCard" data-bs-toggle="collapse" data-bs-target="#formVISA" aria-expanded="false" aria-controls="formVISA">
-                        <label for="visaCard">VISA card</label>
-                    </div>
-                </div>
-                <div class="collapse" id="formVISA">
-                <div class="card card-body">
-                    <form action="" class="formVISA">
-                        <div class="mb-3">
-                        <input type="text" name="" id="" class="form-control" placeholder="Name on Card">
-                        </div>
-                        <div class="mb-3">
-                        <input type="text" name="" id="" class="form-control" placeholder="Card Number">
-                        </div>
-                        <div class="mb-3">
-                        <input type="year" pattern="[0-9]{4}-[0-9]{2}" name="" id="" class="form-control" placeholder="MM/YY">
-                        </div>
-                    </form>
-                </div>
-                </div>
-            </div>    
+            
             <hr>
-                <div class="row">
-                    <div class="col-6 fs-4">
-                    <h4>Sub total</h4>
-                    </div>
-                    <div class="col-6 d-flex flex-row-reverse">
-                        $39.99
-                    </div>
+            <div class="row">
+                <div class="col-6 fs-4">
+                    <h4>Sub total <span><i class="fs-5 fw-normal">(<?=$numNights?> nights)</i></span></h4>
                 </div>
+                <div class="col-6 d-flex flex-row-reverse">
+                    <span>
+                        <?= $_SESSION['currencySign'] ?>
+                        <?= $subTotal ?>
+                    </span>
+                </div>
+            </div>
             <hr>
-                <div class="row">
-                    <div class="col-6 fs-4">
-                        <i>Taxes</i>
-                    </div>
-                    <div class="col-6 d-flex flex-row-reverse">
-                        $9.99
-                    </div>
+            <div class="row">
+                <div class="col-6 fs-4">
+                    <i>Taxes <span class="fs-5">(10%)</span> </i>
                 </div>
-                <div class="row">
-                    <div class="col-6 fs-4">
-                        <i>Fee cleaning</i>
-                    </div>
-                    <div class="col-6 d-flex flex-row-reverse">
-                        $6
-                    </div>
+                <div class="col-6 d-flex flex-row-reverse">
+                    <span>
+                        <?= $_SESSION['currencySign'] ?>
+                        <?= $taxes ?>
+                    </span>
                 </div>
-                <div class="row">
-                    <div class="col-6 fs-4">
-                        <i>Extra service</i>
-                    </div>
-                    <div class="col-6 d-flex flex-row-reverse">
-                        $0
-                    </div>
+            </div>
+            <div class="row">
+                <div class="col-6 fs-4">
+                    <i>Fee cleaning</i>
                 </div>
+                <div class="col-6 d-flex flex-row-reverse">
+                    <?= $_SESSION['currencySign'] ?>
+                    <?= $feeCleaning ?>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6 fs-4">
+                    <i>Extra service <span><i class="fs-5">(<?= $countSer ?> services)</i></span></i>
+                </div>
+                <div class="col-6 d-flex flex-row-reverse">
+                    <span>
+                        <?= $_SESSION['currencySign'] ?>
+                        <?= $extra ?>
+                        
+                    </span>
+                </div>
+            </div>
             <hr>
-                <div class="row">
-                    <div class="col-6"><h4>Total</h4></div>
-                    <div class="col-6 d-flex flex-row-reverse colorRed fs-1">
-                        $55.98
-                    </div>
+            <div class="row">
+                <div class="col-6">
+                    <h4>Total</h4>
                 </div>
+                <div class="col-6 d-flex flex-row-reverse colorRed fs-1">
+                    <span>
+                        <?= $_SESSION['currencySign'] ?>
+                        <span><?= $totalPrice ?></span>
+                    </span>
+
+
+                </div>
+            </div>
         </div>
     </div>
 

@@ -15,14 +15,14 @@
     <header>
         <div class="navigation">
             <nav class="navbar navbar-expand-md row d-sm-flex p-0">
-                <div class="banner col-lg-5 col-md-2 col-sm-2 col-4">
+                <a class="banner col-lg-5 col-md-2 col-sm-2 col-4 text-decoration-none" href="/Hotel/Home">
                     <div class="logo ml-lg-5">
                         <div class="contentLogo">
                             <span class="logoText">S E R E N A</span><br>
                             <span class="logoText subLogoText">H o t e l s</span>
                         </div>
                     </div>
-                </div>
+                </a>
                 <div class="navbar-toggler mr-5 navbarToggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <img class="btnToggle" src="./public/images/menu.png" alt="" width="32">
                 </div>
@@ -34,11 +34,14 @@
                         <li class="nav-item">
                             <a class="nav-link" href="#">Facilities</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="http://localhost/Hotel/Booking">Booking
-                                <span><i class="fa fa-angle-down mr-0"></i></span>
-                            </a>
+                        <li class="nav-item dropdown">
+                            <div class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Booking</div>
+                            <ul class="dropdown-menu fs-3 px-4">
+                                <li class="py-2"><a class="dropdown-item" href="http://localhost/Hotel/Booking">Booking</a></li>
+                                <li class="py-2"><a class="dropdown-item" href="http://localhost/Hotel/History">History</a></li>
+                            </ul>
                         </li>
+                        
                         <li class="nav-item">
                             <a class="nav-link" href="#">Contact-us</a>
                         </li>

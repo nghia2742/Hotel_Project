@@ -35,5 +35,5 @@
     </div>
 </div>
 
-<div class="notifyError animate__animated animate__fadeInRight"></div>
+<div class="notify animate__animated animate__fadeInRight"></div>
 

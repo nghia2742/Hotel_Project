@@ -9,10 +9,14 @@
 
         public function show()
         {
-            $this->view("layout1",[
-                "page" => "bodyProfile",
-                "profile"=> $this->CustomerModel->getProfileCustomer()
-            ]);
+            if (isset($_SESSION['signedIn'])) {
+                $this->view("layout1",[
+                    "page" => "bodyProfile",
+                    "profile"=> $this->CustomerModel->getProfileCustomer()
+                ]);
+            }else {
+                header("location: /Hotel/SignIn");
+            }
         }
     }
 

@@ -6,26 +6,32 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <link rel="stylesheet" href="/Hotel/style.css">
     <title>Layout 2</title>
 </head>
 <body class="text-dark">
     <header>
-        <div class="nav_layout2">
-           <div class="text-center">
+        <div class="nav_layout2" >
+           <a class="text-center text-decoration-none" href="/Hotel/Home">
                 <span class="logoText">S E R E N A</span><br>
                 <span class="logoText subLogoText">H o t e l s</span>
-           </div>
+           </a>
         </div>
     </header>
     <div class="wrapper_management">
         <div class="row g-0 m-0">
-            <div type="button" id="btnMenuAdmin" data-bs-toggle="collapse" data-bs-target="#menuAdmin" autocomplete="off">
-                <img src="/Hotel/public/images/menu.png" alt="" width="20">
+            <div class="rounded" id="btnMenuAdmin" data-bs-toggle="collapse" data-bs-target="#menuAdmin">
+                <label for="check">
+                    <input type="checkbox" id="check"/> 
+                    <span class="bar1"></span>
+                    <span class="bar2"></span>
+                    <span class="bar3"></span>
+                </label>
             </div>
-            <div class="col-3 management_body1 p-0 collapse" id="menuAdmin">
-                <ul class="list-group text-light table-group">
-                    <a href="/Hotel/Admin/dashboard">
+            <div class="col-3 animate__animated animate__fadeInLeft management_body1 p-0 collapse" id="menuAdmin">
+                <ul class="list-group text-light table-group pt-5">
+                    <a class="mt-4" href="/Hotel/Admin/dashboard">
                         <li class="list-group-item">
                             <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M0 11.1111H8.88889V0H0V11.1111ZM0 20H8.88889V13.3333H0V20ZM11.1111 20H20V8.88889H11.1111V20ZM11.1111 0V6.66667H20V0H11.1111Z" fill="white"/>

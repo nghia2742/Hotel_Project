@@ -18,7 +18,7 @@ class CustomerModel extends DB{
 
     public function checkCustomerSignIn($email,$password){
         $result = false;
-        $sql = "SELECT * FROM tb_customers WHERE `email` LIKE '$email'  AND `password` LIKE '$password'";
+        $sql = "SELECT * FROM tb_customers WHERE `email` LIKE '$email'  AND `password` LIKE '$password' AND `member` = 1";
         $rows = mysqli_query($this->con, $sql);
         $list = array();
 
@@ -39,11 +39,23 @@ class CustomerModel extends DB{
             $rows = mysqli_query($this->con, $sql);
 
             while ($row = mysqli_fetch_array($rows)) {
+                $_SESSION['idCus'] = $row['id_customer'];
                 $_SESSION['nameCus'] = $row['name'];
                 $_SESSION['emailCus'] = $row['email'];
                 $_SESSION['phoneCus'] = $row['phone'];
             }
         }
+    }
+
+    public function getIdCustomer($email){
+        $id = 0;
+        $sql = "SELECT *  FROM `tb_customers` WHERE `email` LIKE '$email'";
+        $customer = mysqli_query($this->con,$sql);
+        $row = mysqli_fetch_array($customer);
+        if (isset($row['id_customer'])) {
+            $id = $row['id_customer'];
+        }
+        return $id;
     }
 
     public function updatePassword($curPass, $newPass) {
@@ -57,16 +69,32 @@ class CustomerModel extends DB{
         }
         return false;
     }
-
-    public function addNewCustomer($name,$email,$phone,$password){
+    
+    public function addNewCustomer($name,$email,$phone,$password,$member){
         $result = true;
+
+        $sql = "SELECT *  FROM `tb_customers` WHERE `email` LIKE '$email' AND `member` = 0";
+        $isEmail = mysqli_query($this->con,$sql);
+
+        if ($isEmail->num_rows > 0) {
+            mysqli_query($this->con,
+            "UPDATE `tb_customers` 
+            SET `password`='$password',
+                `name`='$name',
+                `phone`='$phone',
+                `member`= 1 
+            WHERE `email`='$email'");
+            return true;
+        }
+
+
         $sql1 = "SELECT *  FROM `tb_customers` WHERE `email` LIKE '$email'";
         $isEmail = mysqli_query($this->con,$sql1);
 
         if ($isEmail->num_rows > 0) {
             return false;
         }
-        $sql2 = "INSERT INTO `tb_customers` ( `name`, `email`, `phone`, `password`) VALUES ('$name', '$email','$phone', '$password');";
+        $sql2 = "INSERT INTO `tb_customers` ( `name`, `email`, `phone`, `password`, `member`) VALUES ('$name', '$email','$phone', '$password',$member);";
         if (mysqli_query($this->con,$sql2)) {
             $result = true;
         };

@@ -6,6 +6,12 @@ if (!isset($_SESSION['signedIn'])) {
 }
 else 
 {
+    $admin = '';
+    if ($_SESSION['nameCus'] == "Admin") {
+        $admin = '<li>
+                <a href="/Hotel/Admin">Management</a>
+            </li>';
+    }
     echo '<a class="nav-link p-0" href="#">
             <div class="dropdown user_dropdown">
                     <span class="signIn signed-in" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -22,9 +28,7 @@ else
                         <li>
                             <a href="/Hotel/Profile">Profile</a>
                         </li>
-                        <li>
-                            <a href="#">History</a>
-                        </li>
+                        '.$admin.'
                         <li>
                         <hr>
                             <a href="#" class="btnSignOut" id="signOut">

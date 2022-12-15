@@ -79,7 +79,7 @@
         </div>
     </div>
     <hr>
-    <div class="body_table">
+    <div class="body_table overflow-auto">
         <div class="table-responsive">
             <table class="table table-striped table_rooms
             table-hover	
@@ -89,8 +89,15 @@
                         <th>#</th>
                         <th>Name Room</th>
                         <th>Kind</th>
+                        <th>Rating</th>
+                        <th>Id_location</th>
+                        <th>Adult</th>
+                        <th>Children</th>
+                        <th>Bedroom</th>
+                        <th>Bathroom</th>
                         <th>Price</th>
                         <th>Image</th>
+                        <th>Description</th>
                         <th>Status</th>
                         <th>Tools</th>
                     </tr>

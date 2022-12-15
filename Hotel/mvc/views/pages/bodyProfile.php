@@ -36,15 +36,15 @@
                         <div class="card card-body p-5">
                             <div class="mb-3">
                                 <label for="curPassword" class="form-label">Current password</label>
-                                <input type="text" id="curPassword" class="form-control">
+                                <input type="password" id="curPassword" class="form-control">
                             </div>
                             <div class="mb-3">
                                 <label for="newPassword" class="form-label">New password</label>
-                                <input type="text" id="newPassword" class="form-control">
+                                <input type="password" id="newPassword" class="form-control">
                             </div>
                             <div class="mb-3">
                                 <label for="newPassword2nd" class="form-label">Confirm password</label>
-                                <input type="text" id="newPassword2nd" class="form-control">
+                                <input type="password" id="newPassword2nd" class="form-control">
                             </div>
 
                             <div class="btn btn-lg btnUpdatePass mt-3" id="btnUpdatePass">Update</div>

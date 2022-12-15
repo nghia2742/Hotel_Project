@@ -8,7 +8,11 @@ class Home extends Controller{
         $this->CustomerModel = $this->model("CustomerModel");
     }
 
-    function Show(){        
+    function Show(){
+        if (!isset($_SESSION['currency'])) {
+            $_SESSION['currency'] = 1;
+            $_SESSION['currencySign'] = "&dollar;";
+        }     
         $this->CustomerModel->getProfileCustomer();
         $this->view("layout1", ["page"=>"bodyHome"]);
     }

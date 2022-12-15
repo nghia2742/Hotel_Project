@@ -26,4 +26,4 @@
         </div>
     </div>
 </div>
-<div class="notifyError"></div>
+<div class="notify animate__animated animate__fadeInRight"></div>

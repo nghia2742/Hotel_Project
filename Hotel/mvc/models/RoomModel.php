@@ -6,7 +6,7 @@ class RoomModel extends DB{
     public $statusRoom = Array();
     
     public function listAll(){
-        $qr = "SELECT * FROM tb_rooms";
+        $qr = "SELECT * FROM tb_rooms, tb_locations WHERE `tb_rooms`.`id_location` = `tb_locations`.`id_location`";
         $rows = mysqli_query($this->con, $qr);
         $list = array();
 
@@ -33,6 +33,16 @@ class RoomModel extends DB{
         $this->item_in_page = $this->item_in_page + $number;
     }
 
+    public function getIdLocation(){
+        $id = 0;
+        $sql = "SELECT *  FROM `tb_locations` WHERE `location` LIKE '".$_SESSION['getPlace']."'";
+        $location = mysqli_query($this->con,$sql);
+        $row = mysqli_fetch_array($location);
+        if (isset($row['id_location'])) {
+            $id = $row['id_location'];
+        }
+        return $id;
+    }
     
     public function paginationRoom($element, $order){
         if (!isset($_SESSION['location'])) {
@@ -134,6 +144,27 @@ class RoomModel extends DB{
         return $room;
     }
 
+    public function checkAvailableDate($room,$dateFrom,$dateTo) {
+        $sqlDate = "SELECT * FROM tb_room_reservations 
+                WHERE id_room = $room
+                AND
+                (
+                    (
+                    ('".$dateFrom."' BETWEEN date_from AND date_to) OR ('".$dateTo."' BETWEEN date_from AND date_to)
+                    )
+                    OR
+                    (
+                    (date_from BETWEEN '".$dateFrom."' AND '".$dateTo."') OR (date_to BETWEEN '".$dateFrom."' AND '".$dateTo."')
+                    )
+                )";
+        $dateRows = mysqli_query($this->con, $sqlDate);
+        $numDate = $dateRows->num_rows;
+        if ($numDate > 0) {
+            return 1;
+        }
+        return 0;
+    }
+
     public function searchRoom($location,$dateFrom,$dateTo,$quantify){
         //SQL DATE
         $sqlDate = "SELECT * FROM tb_room_reservations 
@@ -175,6 +206,68 @@ class RoomModel extends DB{
              LIMIT $this->item_in_page ";
        
         $rows = mysqli_query($this->con, $sql);
+        $list = array();
+        while ($row = mysqli_fetch_array($rows)) {
+            $list[] = $row;
+        }
+        return $list;
+    }
+
+    public function addReserved($idRoom, $idLocation, $idCustomer, $dateFrom, $dateTo, $price){
+        $result = false;
+        $dateFrom = date('Y-m-d',strtotime($dateFrom));
+        $dateTo = date('Y-m-d',strtotime($dateTo));
+        $sql = "INSERT INTO `tb_room_reservations` 
+        (`id_reservation`, `id_room`, `id_location`, `id_customer`, `date_from`, `date_to`, `price`) 
+        VALUES (NULL, '$idRoom', '$idLocation', '$idCustomer', '$dateFrom', '$dateTo', '$price');";
+
+        if (mysqli_query($this->con,$sql)) {
+            $result = true;
+        };
+        return  $result;
+    }
+
+    public function getLenReservation() {
+        $sql = "SELECT * FROM `tb_room_reservations`";
+        $rows = mysqli_query($this->con,$sql);
+        return $rows->num_rows;
+    }
+
+    public function setHistory($idCustomer,$idReservation,$price){
+        $result = false;
+        $sql = "INSERT INTO `tb_history` (`id_customer`,`id_reservation`,`price`)
+         VALUES ('$idCustomer','$idReservation','$price')";
+        if (mysqli_query($this->con,$sql)) {
+            $result = true;
+        };
+        return $result;
+    }
+
+    public function getHistory($idCustomer){
+        $sql = "SELECT * FROM `tb_history` WHERE `id_customer` = $idCustomer";
+        $rows = mysqli_query($this->con,$sql);
+        
+        $listHistory = array();
+        while ($row = mysqli_fetch_array($rows)) {
+            $listHistory[] = $row;
+        }
+        return $listHistory;
+    }
+
+    public function showViewDetail($idReservation){
+        $sql = "SELECT 
+        `tb_customers`.`name`, `tb_customers`.`email`, `tb_customers`.`phone`,
+        `tb_rooms`.`nameRoom`, `tb_locations`.`location`, `tb_rooms`.`adult`, `tb_rooms`.`children`, 
+        `tb_room_reservations`.`date_from`, `tb_room_reservations`.`date_to`,`tb_history`.`price`
+        FROM `tb_room_reservations`, `tb_rooms` , `tb_locations`, `tb_customers`, `tb_history`
+        WHERE 
+        `tb_room_reservations`.`id_reservation` = $idReservation 
+        AND `tb_room_reservations`.`id_room` = `tb_rooms`.`id_room`
+        AND `tb_room_reservations`.`id_reservation` = `tb_history`.`id_reservation`
+        AND `tb_rooms`.`id_location` = `tb_locations`.`id_location`
+        AND `tb_room_reservations`.`id_customer` = `tb_customers`.`id_customer`";
+        $rows = mysqli_query($this->con,$sql);
+        
         $list = array();
         while ($row = mysqli_fetch_array($rows)) {
             $list[] = $row;

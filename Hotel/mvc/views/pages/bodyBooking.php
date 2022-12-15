@@ -54,18 +54,19 @@
                 </div>
                 <div class="controller_person">
                     <div class="arrow-up"></div>
-                    <div>
-                        <button class="btn btn-success mr-3" id="" onclick="upQuantify('Adult')">+</button>
+                    <div class="">
+                        <span class="text-dark mr-5">Adults</span>
+                        <button class="btn btn-success" id="" onclick="downQuantify('Adult')">-</button>
                         <input class="controller_person_input" type="text" name="" id="quantifyAdult" value="0" readonly>
-                        <button class="btn btn-success mx-3" id="" onclick="downQuantify('Adult')">-</button>
-                        <span class="text-dark">Adults</span>
+                        <button class="btn btn-success" id="" onclick="upQuantify('Adult')">+</button>
                     </div>
                     <div class="mt-3">
-                        <button class="btn btn-success mr-3" id="" onclick="upQuantify('Children')">+</button>
+                        <span class="text-dark mr-4">Children</span>
+                        <button class="btn btn-success" id="" onclick="downQuantify('Children')">-</button>
                         <input class="controller_person_input" type="text" name="" id="quantifyChildren" value="0" readonly>
-                        <button class="btn btn-success mx-3" id="" onclick="downQuantify('Children')">-</button>
-                        <span class="text-dark">Children</span>
+                        <button class="btn btn-success mr-3" id="" onclick="upQuantify('Children')">+</button>
                     </div>
+                    <div class="btn btn-danger w-100 mt-3 text-center" id="close_controller_person">Close</div>
                 </div>
             </div>
 
@@ -234,7 +235,7 @@
             </div>
             <div class="modal-body my-5">
                 <div class="container-fluid text-dark d-flex mx-5 ">
-                    <button class="mx-5 btn btn-light fs-2" data-bs-dismiss="modal" onclick="setCurrency(24.519)">
+                    <button class="mx-5 btn btn-light fs-2" data-bs-dismiss="modal" onclick="setCurrency(23570)">
                         <img src="/Hotel/public/images/vietnam.png" alt="" width="30">&nbsp VND
                     </button>
                     <button class="ml-5 btn btn-light fs-2" data-bs-dismiss="modal" onclick="setCurrency(1)">

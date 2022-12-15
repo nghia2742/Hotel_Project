@@ -21,8 +21,15 @@ class Ajax extends Controller
                         <td> ' . $room["id_room"] . '</td>
                         <td> ' . $room["nameRoom"] . '</td>
                         <td> ' . $room["kind"] . '</td>
+                        <td> ' . $room["rating"] . '</td>
+                        <td> ' . $room["id_location"] . '</td>
+                        <td> ' . $room["adult"] . '</td>
+                        <td> ' . $room["children"] . '</td>
+                        <td> ' . $room["bedroom"] . '</td>
+                        <td> ' . $room["bathroom"] . '</td>
                         <td> ' . $room["price"] . '</td>
                         <td> ' . $room["image"] . '</td>
+                        <td> ' . $room["description"] . '</td>
                         <td> ' . $room["status"] . '</td>
                         <td class="tools_table">
                             <svg x//www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16" data-toggle="modal" data-target="#editModal' . $room["id_room"] . '">
@@ -111,7 +118,7 @@ class Ajax extends Controller
             $order = $_SESSION['order'];
         }
         
-        $rooms = $this->RoomModel->paginationRoom($element, $order);
+        $rooms = $this->RoomModel->paginationRoom($element,$order);
         
         foreach ($rooms as $room) {
             echo '  <div class="listRoom-item d-flex">
@@ -216,10 +223,9 @@ class Ajax extends Controller
 
                                 </div>
                                 <div class="btnBookRoom mt-5">
-                                    <form action="http://localhost/Hotel/Detail" method="post">
-                                        <input type="hidden" name="detailPage" value="' . $room['id_room'] . '">
-                                        <button class="btn ' . $statusRoom . '">Book</button>
-                                    </form>
+                                    <div>
+                                        <button class="btn ' . $statusRoom . '" onclick="detailRoom('.$room['id_room'].')">Book</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -236,6 +242,8 @@ class Ajax extends Controller
             unset($_SESSION['dateTo']);
             unset($_SESSION['element']);
             unset($_SESSION['order']);
+            unset($_SESSION['adult']);
+            unset($_SESSION['children']);
         }
     }
 
@@ -248,12 +256,13 @@ class Ajax extends Controller
             $dateTo = $_POST['dateTo'];
             $_SESSION['dateTo'] = $dateTo;
             $adult = $_POST['adult'];
-            $children = $_POST['children'];            
+            $_SESSION['adult'] = $adult;
+            $children = $_POST['children'];   
+            $_SESSION['children'] = $children;
             
             $quantify = $adult + $children;
             $_SESSION['quantify'] = $quantify;
             
-            // $rooms = $this->RoomModel->paginationRoom('True', 'price', 'ASC', $location);
             $rooms = $this->RoomModel->searchRoom($location,$dateFrom,$dateTo,$quantify);
 
             foreach ($rooms as $room) {
@@ -359,10 +368,9 @@ class Ajax extends Controller
     
                                     </div>
                                     <div class="btnBookRoom mt-5">
-                                        <form action="http://localhost/Hotel/Detail" method="post">
-                                            <input type="hidden" name="detailPage" value="' . $room['id_room'] . '">
-                                            <button class="btn ' . $statusRoom . '">Book</button>
-                                        </form>
+                                        <div>
+                                            <button class="btn ' . $statusRoom . '" onclick="detailRoom('.$room['id_room'].')">Book</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -374,7 +382,7 @@ class Ajax extends Controller
     }
 
     // CUSTOMER
-    function actionSignIn(){   
+    public function actionSignIn(){   
         
         if (isset($_POST['signIn'])) {
             $email = $_POST['email'];
@@ -385,7 +393,7 @@ class Ajax extends Controller
            
     }
 
-    function updatePassword(){   
+    public function updatePassword(){   
         if (isset($_POST['changePass'])) {
             $curPass = md5($_POST['curPassword']);
             $newPass = md5($_POST['newPassword']);
@@ -394,18 +402,159 @@ class Ajax extends Controller
            
     }
     
-    function actionSignUp(){   
+    public function actionSignUp(){   
 
         if (isset($_POST['signUp'])) {
             $name = $_POST['name'];
             $phone = $_POST['phone'];
             $email = $_POST['email'];
             $password = md5($_POST['password']);
+            $member = 1;
             
-            echo $this->CustomerModel->addNewCustomer($name,$email,$phone,$password);
+            echo $this->CustomerModel->addNewCustomer($name,$email,$phone,$password,$member);
 
         }
            
+    }
+
+    public function checkAvailableDate() {
+        if (isset($_POST['send'])) {
+            $room = $_POST['idRoom'];
+            $dateFrom = $_POST['dateFrom'];
+            $dateTo = $_POST['dateTo'];
+            
+            echo $this->RoomModel->checkAvailableDate($room,$dateFrom,$dateTo);
+        }
+        
+    }
+
+    public function getInfoBook(){
+        if (isset($_POST['infoBook'])) {
+            $name = $_POST['name'];
+            $phone = $_POST['phone'];
+            $email = $_POST['email'];
+            $dateFrom = $_POST['dateFrom'];
+            $dateTo = $_POST['dateTo'];
+            $adult = $_POST['adult'];
+            $children = $_POST['children'];
+            $extSer1 = $_POST['extSer1'];
+            $extSer2 = $_POST['extSer2'];
+
+            $_SESSION['infoBook'] = array();
+            array_push($_SESSION['infoBook'], $name, $phone, $email, $dateFrom, $dateTo, $adult, $children,$extSer1,$extSer2);
+        }
+    }
+
+    public function addReserved(){
+        if (isset($_POST['send'])) {
+            $name = $_POST['name'];
+            $email = $_POST['email'];
+            $phone = $_POST['phone'];
+            $password = '';
+            $member = 0;
+            $dateFrom = $_POST['dateFrom'];
+            $dateTo = $_POST['dateTo'];
+            $price = $_POST['price'];
+            $idReservation = $this->RoomModel->getLenReservation()+1;
+
+            if($this->CustomerModel->getIdCustomer($email) == 0){
+                $this->CustomerModel->addNewCustomer($name,$email,$phone,$password,$member);
+            };
+            $idCustomer = $this->CustomerModel->getIdCustomer($email);
+            $idRoom = $_SESSION['detailRoom'];
+            $idLocation = $this->RoomModel->getIdLocation();
+            
+            $this->RoomModel->addReserved($idRoom, $idLocation, $idCustomer, $dateFrom, $dateTo, $price);
+            
+            $this->RoomModel->setHistory($idCustomer,$idReservation, $price);
+        }
+    }
+
+    public function showHistory(){
+        if (isset($_POST['send'])) {
+            $email = $_POST['email'];
+
+            $idCustomer = $this->CustomerModel->getIdCustomer($email);
+            $history = $this->RoomModel->getHistory($idCustomer);
+            foreach($history as $row) {
+                if ($row['status'] == 1) {
+                    $status = '<span class="statusHistory bg-success rounded text-light py-2 px-4">Finish</span>';
+                } else {
+                    $status = '<span class="statusHistory bg-danger rounded text-light py-2 px-4">Processing...</span>';
+                }
+
+                if ($row['payment'] == 1) {
+                    $payment = 'Paid';
+                } else {
+                    $payment = 'Unpaid';
+                }
+                $price = (round($row['price']*$_SESSION['currency'],3));
+                echo '
+                    <tr class="">
+                        <td scope="row">'.$row['date'].'</td>
+                        <td>'.$status.'</td>
+                        <td>'.$price.'</td>
+                        <td>'.$payment.'</td>
+                        <td><a href="#" onclick="viewDetail('.$row['id_reservation'].')" data-bs-toggle="modal" data-bs-target="#modalViewHistory">View detail</a></td>  
+                    </tr>
+                ';
+            }
+        }
+    }
+
+    public function showViewDetail(){
+        if (isset($_POST['send'])) {
+            $idReservation = $_POST['idReservation'];
+            $viewDetail = $this->RoomModel->showViewDetail($idReservation);
+
+            foreach($viewDetail as $row) {
+                echo '
+                    <div class="px-4 fs-2">
+                        <h2 class="bg-info text-light pl-2 py-2"> YOUR INFORMATION</h2>
+                        <div>
+                            <span><b>Name:</b></span>
+                            <span> '.$row['name'].'</span>
+                        </div>
+                        <div>
+                            <span><b>Email:</b></span>
+                            <span> '.$row['email'].'</span>
+                        </div>
+                        <div>
+                            <span><b>Phone:</b></span>
+                            <span>'.$row['phone'].'</span>
+                        </div>
+                        <hr></hr>
+                        <h2 class="bg-info text-light pl-2 py-2"> YOUR ROOM</h2>
+                        <div>
+                            <span><b>Name Room:</b></span>
+                            <span>'.$row['nameRoom'].'</span>
+                        </div>
+                        <div>
+                            <span><b>Location:</b></span>
+                            <span>'.$row['location'].'</span>
+                        </div>
+                        <div>
+                            <span><b>Date:</b></span>
+                            <span>'.$row['date_from'].'</span>
+                            &nbsp;&rarr;&nbsp;
+                            <span>'.$row['date_to'].'</span>
+                        </div>
+                        <div>
+                            <span><b>Member: </b></span>
+                            <span>'.$row['adult'].'</span> &nbsp;Adult,&nbsp;
+                            <span>'.$row['adult'].'</span> &nbsp;Children
+                        </div>
+                        <hr></hr>
+                        <h2 class="bg-info text-light pl-2 py-2"> YOUR BILL</h2>
+                        <div class="d-flex justify-content-between">
+                            <span><b>Total price:</b></span>
+                            <span class="colorRed fs-1 pr-5 fw-bold">$'.$row['price'].'</span>
+                        </div>
+                    </div>
+                ';
+            }
+        }
+
     }
 
 }

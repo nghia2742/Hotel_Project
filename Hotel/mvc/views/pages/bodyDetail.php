@@ -1,4 +1,3 @@
-<h1 class="text-dark">
 <?php
     $detail = $data['detailRoom'];
     $path = $detail['image'];
@@ -6,8 +5,34 @@
     unset($path[1]);
     $path = implode("",$path);
     
+
+    $name = "";
+    $email = "";
+    $phone = "";
+
+    if (isset($_SESSION['signedIn'])) {
+        $name = $_SESSION['nameCus'];
+        $email = $_SESSION['emailCus'];
+        $phone = $_SESSION['phoneCus'];
+    }
+
+    $dateFrom = "";
+    $dateTo = "";
+    if (isset($_SESSION['dateFrom']) && isset($_SESSION['dateTo'])) {
+        $dateFrom = $_SESSION['dateFrom'];
+        $dateTo = $_SESSION['dateTo'];
+    }
+
+    $adult = 0;
+    $children = 0;
+    if (isset($_SESSION['adult'])) {
+        $adult = $_SESSION['adult'];
+    }
+    if (isset($_SESSION['children'])) {
+        $children = $_SESSION['children'];
+    }
+
 ?>
-</h1>
 
 <div class="wrapper_detail">
     <div class="container-fluid">
@@ -58,6 +83,7 @@
             </div>
             <div class="col-lg-5 mt-md-5 mt-lg-0 wrapContent2">
                 <h1 class="detail_TitleRoom"><?=$detail['nameRoom']?></h1>
+                <input type="hidden" id="idRoomVal" value="<?=$detail['id_room']?>">
                 <div class="d-flex justify-content-between align-items-center">
                     <ul class="starRates ps-0 d-inline-flex">
                         <li class="list-group-item">★</li>
@@ -102,6 +128,7 @@
                                     <path d="M7.49998 0.0175208C3.35356 0.0272707 0.00735986 3.16515 0.0164598 7.03514C0.0288046 12.2851 7.54701 20.0175 7.54701 20.0175C7.54701 20.0175 15.0288 12.2499 15.0164 6.99987C15.0073 3.12988 11.6464 0.00777092 7.49998 0.0175208ZM7.52232 9.51749C6.04375 9.52097 4.84112 8.4038 4.83787 7.0238C4.83463 5.6438 6.03199 4.52099 7.51056 4.51751C8.98913 4.51403 10.1918 5.63121 10.195 7.0112C10.1982 8.3912 9.00089 9.51402 7.52232 9.51749Z" fill="#030303" />
                                 </svg>
                             </div>
+                            <input type="hidden" id="locationVal" value="<?=$detail['location']?>">
                             <span class="convenientRoom_content ml-2"><?=$detail['location']?></span>
                         </div>
                         <div class="convenientRoom4 d-flex align-items-center mt-3">
@@ -191,29 +218,26 @@
             <div class="guestInfo">
                 <div class="mb-5 d-flex align-items-center">
                   <label for="" class="form-label">Full name:</label>
-                  <input type="text" name="" id="" class="form-control ml-3" >
-                </div>
-                <div class="mb-5 d-flex align-items-center">
-                  <label for="" class="form-label">Address:</label>
-                  <input type="text" name="" id="" class="form-control ml-3" >
+                  <input type="text" id="nameVal" value="<?=$name?>" class="form-control ml-3" >
                 </div>
                 <div class="mb-5 d-flex align-items-center">
                   <label for="" class="form-label">Email:</label>
-                  <input type="text" name="" id="" class="form-control ml-3" >
+                  <input type="text" id="emailVal" value="<?=$email?>" class="form-control ml-3" >
                 </div>
                 <div class="mb-5 d-flex align-items-center">
                   <label for="" class="form-label">Phone:</label>
-                  <input type="text" name="" id="" class="form-control ml-3" >
+                  <input type="text" id="phoneVal" value="<?=$phone?>" class="form-control ml-3" >
                 </div>
                 <div class="form-check form-check">
                     <input class="form-check-input" type="checkbox" id="" value="option1">
                     <label class="form-check-label" for="">Notify me about offers.</label>
                   </div>
                   <div class="form-check form-check">
-                    <input class="form-check-input" type="checkbox" id="" value="option2">
+                    <input class="form-check-input" type="checkbox" id="chkPolicy" value="option2">
                     <label class="form-check-label" for="">I have read and agree to the 
                         <a href="#">Terms & Conditions</a> and <a href="#">Privacy Policy</a>
                     </label>
+                    <span><i class="fs-4 colorRed" id="noticePolicy"></i></span>
                   </div>
                   
             </div>     
@@ -232,20 +256,20 @@
                 </div>
                 <div class="d-flex tempBill_date">
                     <div class="d-flex">
-                        From:<input class="date_from ml-3" type="date" name="" id="">
+                        From:<input class="date_from ml-3" id="dateFromVal" type="date" value="<?=$dateFrom?>">
                     </div>
                     <div class="d-flex">
-                        To:<input class="date_to ml-3" type="date" name="" id="">
+                        To:<input class="date_to ml-3" id="dateToVal" type="date" value="<?=$dateTo?>">
                     </div>
                 </div>
                 <div class="d-flex tempBill_member">
                     <div class="">
                         Adult:
-                        <input class="text-center" type="number" min="0" name="" id="" value="0">
+                        <input class="text-center" type="number" id="adultVal" min="0" value="<?=$adult?>">
                     </div>
                     <div class="">
                         Children:
-                        <input class="text-center" type="number" min="0" name="" id="" value="0">
+                        <input class="text-center" type="number" id="childrenVal" min="0" value="<?=$children?>">
                     </div>
                 </div>
                 <div class="extraService">
@@ -265,8 +289,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="w-100 mt-5">
-                    <a href="http://localhost/Hotel/Detail/Confirmation" class="btnBookStep1 btn">BOOK NOW</a>
+                <div class="w-100 mt-5" onclick="bookRoom()">
+                    <button class="btnBookStep1 btn">BOOK NOW</button>
                 </div>
 
             </div>
@@ -383,3 +407,4 @@
 
 </div>
 <button class="moveToTop" id="moveToTop">&#9650;</button>
+<div class="notify animate__animated animate__fadeInRight"></div>

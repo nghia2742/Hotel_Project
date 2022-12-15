@@ -109,8 +109,11 @@ $(document).ready(function () {
 
   // BOOKING
   $(".basic_filter4").click(function (e) {
-    e.preventDefault();
-    $(".controller_person").toggle();
+    $(".controller_person").toggle();  
+  });
+  
+  $('#close_controller_person').click(function (e) { 
+    $(".controller_person").hide();
   });
 
   $("#payLater").click(function () {
@@ -206,12 +209,12 @@ function notifyAction(txt) {
   }, delayInMilliseconds);
 }
 
-function notifyError(txt) {
-  $(".notifyError").text(txt);
-  $(".notifyError").show("fast");
+function notify(txt) {
+  $(".notify").text(txt);
+  $(".notify").show("fast");
   var delayInMilliseconds = 2000;
   setTimeout(function () {
-    $(".notifyError").fadeOut("slow");
+    $(".notify").fadeOut("slow");
   }, delayInMilliseconds);
 }
 
@@ -317,6 +320,14 @@ function setCurrency(c) {
   );
 }
 
+function detailRoom(idRoom) {
+  $.post("/Hotel/Detail/Show", {detailPage: idRoom},
+  function (data) {
+  }
+  );
+  window.location.href = "/Hotel/Detail";
+}
+
 function loadSession() {
   $.ajax({
     type: "post",
@@ -326,6 +337,142 @@ function loadSession() {
     },
   });
 }
+
+function isFillBook(){
+  if ($('#nameVal').val() == "" 
+  || $('#emailVal').val() == "" 
+  || $('#phoneVal').val() == ""
+  || $('#dateFromVal').val() == ""
+  || $('#dateToVal').val() == ""
+  || $('#adultVal').val() == ""  
+  ) {
+    $(".notify").addClass("notify--error");
+    notify("Please, filling out the form before send");
+    return true;
+  }
+
+  if (!isEmail($('#emailVal').val())) {
+    $(".notify").addClass("notify--error");
+    notify("Check your email again");
+    return true;
+  }
+
+  if ($("#phoneVal").val().length < 10) {
+    $(".notify").addClass("notify--error");
+    notify("Number phone incorrect");
+    return true;
+  }
+
+  if (!$('#chkPolicy').is(":checked")) {
+    $('#noticePolicy').text('Please agree with us!');
+    return true;
+  }
+  return false;
+}
+
+function bookRoom() {
+  var extSer1 = 0;
+  var extSer2 = 0;
+  if ($('#extSer1').is(":checked")) {
+    extSer1 = 30;
+  }
+  if ($('#extSer2').is(":checked")) {
+    extSer2 = 15;
+  }
+  $.ajax({
+    type: "post",
+    url: "/Hotel/Ajax/checkAvailableDate",
+    data: {
+      send: "true",
+      idRoom: $('#idRoomVal').val(),
+      dateFrom: $('#dateFromVal').val(),
+      dateTo: $('#dateToVal').val()
+    },
+    success: function (data) {
+        if (data == 1) {
+          $(".notify").addClass("notify--error");
+          notify('That date is unavailable')
+        } else {
+          if (!isFillBook()) {
+            $.ajax({
+              type: "post",
+              url: "/Hotel/Ajax/getInfoBook",
+              data: {
+                infoBook: "true",
+                name: $('#nameVal').val(),
+                email: $('#emailVal').val(),
+                phone: $('#phoneVal').val(),
+                dateFrom: $('#dateFromVal').val(),
+                dateTo: $('#dateToVal').val(),
+                adult: $('#adultVal').val(),
+                children: $('#childrenVal').val(),
+                extSer1: extSer1,
+                extSer2: extSer2,
+              },
+              // beforeSend: function () {  
+              // },
+              success: function (response) {
+                window.location.href = "/Hotel/Detail/Confirmation";
+              }
+            });
+          }
+        }
+      }
+    });  
+}
+
+function addReserved() {  
+  $.ajax({
+    type: "post",
+    url: "/Hotel/Ajax/addReserved",
+    data: {
+      send: 1,
+      name: $('#name').val(),
+      email: $('#email').val(),
+      phone: $('#phone').val(),
+      dateFrom: $('#dateFrom').val(),
+      dateTo: $('#dateTo').val(),
+      price: $('#price').val()
+    },
+    success: function (response) {
+    }
+  });
+}
+
+// -------------HISTORY---------------------
+$('#searchHistory').click(function (e) { 
+  $.ajax({
+    type: "post",
+    url: "/Hotel/Ajax/showHistory",
+    data: {
+      send: 1,
+      email: $(".inputHistory").val()
+    },
+    success: function (response) {
+        $('#bodyHistory').html(response);
+    }
+  });
+});
+
+
+function viewDetail(idReservation) {  
+  $.ajax({
+    type: "post",
+    url: "/Hotel/Ajax/showViewDetail",
+    data: {
+      send: 1,
+      idReservation: idReservation
+    },
+    success: function (response) {
+      $('#modalViewDetail').html(response)
+    }
+  });
+}
+
+
+
+
+// -------------------------------------------
 $(document).ready(function () {
   loadDataRooms();
   loadSession();
@@ -365,17 +512,25 @@ $(document).ready(function () {
         if (data) {
           window.location.href = "/Hotel/Home";
         } else {
-          notifyError("Wrong email or password");
+          $(".notify").addClass("notify--error");
+          notify("Wrong email or password");
         }
       },
     });
   });
 
+  $(window).keypress(function(e) {
+    if (e.which == 13) {
+      $("#signIn").click();
+      $("#searchHistory").click();
+    }
+  });
+
   // ---- UPDATE PASS ----
   $("#btnUpdatePass").click(function (e) {
     if ($("#newPassword").val().length < 6) {
-      $(".notifyError").removeClass("bg-success");
-      notifyError("New password must be least 6 characters");
+      $(".notify").addClass("notify--error");
+      notify("New password must be least 6 characters");
     } else {
       if ($("#newPassword").val() == $("#newPassword2nd").val()) {
         $.ajax({
@@ -388,17 +543,17 @@ $(document).ready(function () {
           },
           success: function (data) {
             if (data) {
-              $(".notifyError").addClass("bg-success");
-              notifyError("Your password updated");
+              $(".notify").addClass("notify--success");
+              notify("Your password updated");
             } else {
-              $(".notifyError").removeClass("bg-success");
-              notifyError("Your current password is wrong");
+              $(".notify").addClass("notify--error");
+              notify("Your current password is wrong");
             }
           },
         });
       } else {
-        $(".notifyError").removeClass("bg-success");
-        notifyError("Your password isn't compatible");
+        $(".notify").addClass("notify--error");
+        notify("Your password isn't compatible");
       }
     }
   });
@@ -418,14 +573,14 @@ $(document).ready(function () {
         },
         success: function (data) {
           if (data) {
-            $(".notifyError").addClass("bg-success");
-            notifyError("Register successfully!");
+            $(".notify").addClass("notify--success");
+            notify("Register successfully!");
             setTimeout(() => {
-              $(".notifyError").removeClass("bg-success");
               window.location.href = "/Hotel/SignIn";
             }, 2000);
           } else {
-            notifyError(data);
+            $(".notify").addClass("notify--error");
+            notify('Email existed');
           }
         },
       });
@@ -458,25 +613,30 @@ function validateFormSignUp() {
     $("#password").val() == "" ||
     $("#password2nd").val() == ""
   ) {
-    notifyError("Please fill all of information");
+    $(".notify").addClass("notify--error");
+    notify("Please fill all of information");
     return true;
   }
 
   if (!isEmail($("#email").val())) {
-    notifyError("Check your email again");
+    $(".notify").addClass("notify--error");
+    notify("Check your email again");
     return true;
   }
 
   if ($("#phone").val().length < 10) {
-    notifyError("Number phone incorrect");
+    $(".notify").addClass("notify--error");
+    notify("Number phone incorrect");
     return true;
   }
   if ($("#password").val().length < 6) {
-    notifyError("Password least 6 characters");
+    $(".notify").addClass("notify--error");
+    notify("Password least 6 characters");
     return true;
   }
   if ($("#password").val() !== $("#password2nd").val()) {
-    notifyError("Confirm password again!");
+    $(".notify").addClass("notify--error");
+    notify("Confirm password again!");
     return true;
   }
   return false;
