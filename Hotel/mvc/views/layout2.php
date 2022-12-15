@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <link rel="stylesheet" href="/Hotel/style.css">
-    <title>Layout 2</title>
+    <title>Admin Management</title>
 </head>
 <body class="text-dark">
     <header>
@@ -29,7 +29,7 @@
                     <span class="bar3"></span>
                 </label>
             </div>
-            <div class="col-3 animate__animated animate__fadeInLeft management_body1 p-0 collapse" id="menuAdmin">
+            <div class="col-3 sidebar animate__animated animate__fadeInLeft management_body1 p-0 collapse" id="menuAdmin">
                 <ul class="list-group text-light table-group pt-5">
                     <a class="mt-4" href="/Hotel/Admin/dashboard">
                         <li class="list-group-item">
@@ -39,7 +39,7 @@
                             <span class="table_item_text ml-4">Dashboard</span>
                         </li>
                     </a>
-                    <a href="#">
+                    <a href="/Hotel/Admin/Customers">
                         <li class="list-group-item">
                             <svg width="18" height="16" viewBox="0 0 24 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd" clip-rule="evenodd" d="M17.0945 11.4128C18.589 12.5753 19.6363 14.1503 19.6363 16.2503V20.0002H23.9999V16.2503C23.9999 13.5253 20.1054 11.9128 17.0945 11.4128Z" fill="white"/>
@@ -64,7 +64,7 @@
                             <span class="table_item_text ml-4">Staffs</span>
                         </li>
                     </a>
-                    <a href="#">
+                    <a href="/Hotel/Admin/History">
                         <li class="list-group-item">
                             <svg width="20" height="20" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <g clip-path="url(#clip0_246_278)">
@@ -76,7 +76,7 @@
                             </clipPath>
                             </defs>
                             </svg>
-                            <span class="table_item_text ml-4">Type of Rooms</span>
+                            <span class="table_item_text ml-4">History</span>
                         </li>
                     </a>
                     <a href="/Hotel/Admin/Rooms">
@@ -87,12 +87,12 @@
                             <span class="table_item_text ml-4">Rooms</span>
                         </li>
                     </a>
-                    <a href="#">
+                    <a href="/Hotel/Admin/Reservation">
                         <li class="list-group-item">
                             <svg width="20" height="14" viewBox="0 0 26 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M15.6 5.71429H0V8.57143H15.6V5.71429ZM15.6 0H0V2.85714H15.6V0ZM20.8 11.4286V5.71429H18.2V11.4286H13V14.2857H18.2V20H20.8V14.2857H26V11.4286H20.8ZM0 14.2857H10.4V11.4286H0V14.2857Z" fill="white"/>
                             </svg>
-                            <span class="table_item_text ml-4">Services</span>
+                            <span class="table_item_text ml-4">Reservation</span>
                         </li>
                     </a>
                     <a href="#">
@@ -134,7 +134,7 @@
                             <span class="table_item_text ml-4">Settings</span>
                         </li>
                     </a>
-                    <a href="#">
+                    <a href="/Hotel/SignOut">
                         <li class="list-group-item">
                             <svg width="22" height="22" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <g clip-path="url(#clip0_239_373)">

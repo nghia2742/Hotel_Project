@@ -17,8 +17,8 @@ class Ajax extends Controller
         $rooms = $this->RoomModel->listAll();
         foreach ($rooms as $room) {
             echo '
-                    <tr>
-                        <td> ' . $room["id_room"] . '</td>
+                    <tr class="rowRoom">
+                        <td class="text-center"> ' . $room["id_room"] . '</td>
                         <td> ' . $room["nameRoom"] . '</td>
                         <td> ' . $room["kind"] . '</td>
                         <td> ' . $room["rating"] . '</td>
@@ -32,60 +32,185 @@ class Ajax extends Controller
                         <td> ' . $room["description"] . '</td>
                         <td> ' . $room["status"] . '</td>
                         <td class="tools_table">
-                            <svg x//www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16" data-toggle="modal" data-target="#editModal' . $room["id_room"] . '">
-                                <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
-                                <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
-                            </svg>
-                            
-                            <div class="modal fade" id="editModal' . $room["id_room"] . '">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h2 class="modal-title text-success">Edit</h2>
-                                            <button type="button" class="close" data-dismiss="modal">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body px-5 my-4">
-                                            <form class="formModal">
-                                                <div>
-                                                    <label for="nameRoom">Name room:</label>
-                                                    <input type="text" name="nameRoom" id="nameRoom' . $room["id_room"] . '" value="' . $room["nameRoom"] . '">
+                            <div class ="d-flex align-items-center">
+                                <svg x//www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16" data-toggle="modal" data-target="#editModal' . $room["id_room"] . '">
+                                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                                    <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
+                                </svg>
+                                <div class="modal fade" id="editModal' . $room["id_room"] . '">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h2 class="modal-title text-success">Edit</h2>
+                                                <button type="button" class="close" data-dismiss="modal">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body px-5 my-4">
+                                                <form class="formModal">
+                                                    <div>
+                                                        <label for="nameRoom">Name room:</label>
+                                                        <input type="text" name="nameRoom" id="nameRoom' . $room["id_room"] . '" value="' . $room["nameRoom"] . '">
 
-                                                    <label for="kind">Kind:</label>
-                                                    <input type="text" name="kind" id="kind' . $room["id_room"] . '" value="' . $room["kind"] . '">
+                                                        <label for="kind">Kind:</label>
+                                                        <input type="text" name="kind" id="kind' . $room["id_room"] . '" value="' . $room["kind"] . '">
 
-                                                    <label for="image">Image:</label>
-                                                    <input type="text" name="image" id="image' . $room["id_room"] . '" value="' . $room["image"] . '">
+                                                        <label for="rating">Rating:</label>
+                                                        <input type="text" name="rating" id="rating' . $room["id_room"] . '" value="' . $room["rating"] . '">
 
-                                                    <label for="price">Price:</label>
-                                                    <input type="text" name="price" id="price' . $room["id_room"] . '" value="' . $room["price"] . '">
+                                                        <label for="idLocation">idLocation:</label>
+                                                        <input type="text" name="idLocation" id="idLocation' . $room["id_room"] . '" value="' . $room["id_location"] . '">
 
-                                                    <label for="status">Status:</label>
-                                                    <select id="status' . $room["id_room"] . '" name="status">
-                                                        <option value="Available">Available</option>
-                                                        <option value="Unavailable">Unavailable</option>
-                                                    </select>
+                                                        <label for="adult">adult:</label>
+                                                        <input type="text" name="adult" id="adult' . $room["id_room"] . '" value="' . $room["adult"] . '">
+
+                                                        <label for="children">children:</label>
+                                                        <input type="text" name="children" id="children' . $room["id_room"] . '" value="' . $room["children"] . '">
+
+                                                        <label for="bedroom">bedroom:</label>
+                                                        <input type="text" name="bedroom" id="bedroom' . $room["id_room"] . '" value="' . $room["bedroom"] . '">
+
+                                                        <label for="bathroom">bathroom:</label>
+                                                        <input type="text" name="bathroom" id="bathroom' . $room["id_room"] . '" value="' . $room["bathroom"] . '">
+                                                        
+                                                        <label for="image">Image:</label>
+                                                        <input type="text" name="image" id="image' . $room["id_room"] . '" value="' . $room["image"] . '">
+                                                        
+                                                        <label for="description">description:</label>
+                                                        <textarea  name="description" id="description' . $room["id_room"] . '" cols="30" rows="4">' . $room["description"] . '</textarea>
+                                                        
+                                                        <label for="price">Price:</label>
+                                                        <input type="text" name="price" id="price' . $room["id_room"] . '" value="' . $room["price"] . '">
+
+                                                        <label for="status">Status:</label>
+                                                        <select id="status' . $room["id_room"] . '" name="status">
+                                                            <option value="Available">Available</option>
+                                                            <option value="Unavailable">Unavailable</option>
+                                                        </select>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="modal-footer mt-4">
-                                                <button id="btnEditRoom" class="btn btn-primary btn-lg w-100" onclick="editRoom(' . $room["id_room"] . ')" data-dismiss="modal">Finish</button>
-                                            </div>
-                                        </form>
+                                                <div class="modal-footer mt-4">
+                                                    <button id="btnEditRoom" class="btn btn-primary btn-lg w-100" onclick="editRoom(' . $room["id_room"] . ')" data-dismiss="modal">Finish</button>
+                                                </div>
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
+                                &nbsp;
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16" id="R' . $room["id_room"] . '" data-toggle="modal" data-target="#deleteModal" onclick="getIdRoom(' . $room["id_room"] . ')">
+                                    <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
+                                    <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
+                                </svg>
                             </div>
-                            <span class="px-2">|</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16" data-id="' . $room["id_room"] . '" id="R' . $room["id_room"] . '" data-toggle="modal" data-target="#deleteModal" onclick="getIdRoom(' . $room["id_room"] . ')">
-                                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
-                                <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
-                            </svg>
                         </td>
                     </tr>
                 ';
         }
     }
 
+    public function displayCustomers()
+    {
+        $customers = $this->CustomerModel->listAll();
+        foreach ($customers as $customer) {
+            echo '
+                    <tr>
+                        <td class="text-center">' . $customer["id_customer"] . '</td>
+                        <td> ' . $customer["name"] . '</td>
+                        <td> ' . $customer["email"] . '</td>
+                        <td> ' . $customer["phone"] . '</td>
+                        <td> ' . $customer["password"] . '</td>
+                        <td class="text-center"> ' . $customer["member"] . '</td>
+                        <td class="tools_table class="text-center"">
+                            <div class ="d-flex align-items-center">
+                                <svg x//www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                                    <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
+                                </svg>
+                                &nbsp;
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16" data-toggle="modal" data-target="#deleteModal">
+                                    <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
+                                    <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
+                                </svg>
+                            </div>
+                        </td>
+                    </tr>
+                ';
+        }
+    }
+
+    public function displayHistory()
+    {
+        $history = $this->RoomModel->listAllHistory();
+        foreach ($history as $his) {
+            if ($his['status'] == 1) {
+                $status = '<span class="statusHistory bg-success rounded text-light py-2 px-4">Finish</span>';
+            } else {
+                $status = '<span class="statusHistory bg-danger rounded text-light py-2 px-4">Processing...</span>';
+            }
+
+            if ($his['payment'] == 1) {
+                $payment = 'Paid';
+            } else {
+                $payment = 'Unpaid';
+            }
+            $price = (round($his['price']*$_SESSION['currency'],3));
+            echo '
+                    <tr>
+                        <td class="text-center">' . $his["id_history"] . '</td>
+                        <td class="text-center"> ' . $his["id_reservation"] . '</td>
+                        <td class="text-center"> ' . $his["id_customer"] . '</td>
+                        <td> ' . $his["date"] . '</td>
+                        <td> ' . $status . '</td>
+                        <td class="text-center"> ' . $price . '</td>
+                        <td class="text-center">' . $payment . '</td>
+                        <td class="tools_table class="text-center"">
+                            <div class ="d-flex align-items-center">
+                                <svg x//www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                                    <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
+                                </svg>
+                                &nbsp;
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16" data-toggle="modal" data-target="#deleteModal">
+                                    <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
+                                    <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
+                                </svg>
+                            </div>
+                        </td>
+                    </tr>
+                ';
+        }
+    }
+
+    public function displayReservation()
+    {
+        $listRes = $this->RoomModel->listAllReservation();
+        foreach ($listRes as $reservation) {
+            echo '
+                    <tr>
+                        <td class="text-center">' . $reservation["id_reservation"] . '</td>
+                        <td class="text-center"> ' . $reservation["id_room"] . '</td>
+                        <td class="text-center"> ' . $reservation["id_location"] . '</td>
+                        <td class="text-center"> ' . $reservation["id_customer"] . '</td>
+                        <td> ' . $reservation["date_from"] . '</td>
+                        <td> ' . $reservation["date_to"] . '</td>
+                        <td class="text-center"> ' . $reservation["price"] . '</td>
+                        <td class="tools_table class="text-center"">
+                            <div class ="d-flex align-items-center">
+                                <svg x//www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                                    <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
+                                </svg>
+                                &nbsp;
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16" data-toggle="modal" data-target="#deleteModal">
+                                    <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
+                                    <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
+                                </svg>
+                            </div>
+                        </td>
+                    </tr>
+                ';
+        }
+    }
     // -----BOOKING
     public function setCurrency(){
         if (isset($_POST['currency'])) {

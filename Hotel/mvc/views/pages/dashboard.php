@@ -3,6 +3,8 @@
         WELCOME TO SERENA HOTEL
     </h1>
 
-    <img src="/Hotel/public/images/smallTown.png" alt="" width="750">
+    <div class="d-flex justify-content-center">
+        <img src="/Hotel/public/images/smallTown.png" alt="" width="750">
+    </div>
 
 </div>

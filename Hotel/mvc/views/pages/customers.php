@@ -1,7 +1,7 @@
 <div class="background_table">
     <div class="header_table">
         <div>
-            <h1 class="mb-4">Rooms</h1>
+            <h1 class="mb-4">Customers</h1>
             <div class="alert alert-success tool_notification"></div>
 
             <div class="d-flex justify-content-between">
@@ -37,60 +37,14 @@
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h2 class="modal-title text-success" id="addNewModalLabel">Add a new room</h2>
+                                    <h2 class="modal-title text-success" id="addNewModalLabel">Add a new customer</h2>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
                                 <div class="modal-body px-5 my-4">
-                                    <form class="formModal" method="post">
-                                        <div>
-                                            <label for="nameRoom">Name room:</label>
-                                            <input type="text" name="nameRoom" id="nameRoom">
-
-                                            <label for="kind">Kind:</label>
-                                            <input type="text" name="kind" id="kind">
-
-                                            <label for="rating">Rating:</label>
-                                            <input type="text" name="rating" id="rating">
-
-                                            <label for="id_location">Id_location:</label>
-                                            <input type="text" name="id_location" id="id_location">
-
-                                            <label for="adult">Adult:</label>
-                                            <input type="text" name="adult" id="adult">
-
-                                            <label for="children">Children:</label>
-                                            <input type="text" name="children" id="children">
-
-                                            <label for="bedroom">Bedroom:</label>
-                                            <input type="text" name="bedroom" id="bedroom">
-
-                                            <label for="bathroom">Bathroom:</label>
-                                            <input type="text" name="bathroom" id="bathroom">
-
-                                            <label for="image">Image:</label>
-                                            <input type="text" name="image" id="image">
-                                            
-                                            <div>
-                                            <label for="description">Description:</label>
-                                            <textarea name="description" id="description" cols="30" rows="4"></textarea>
-                                            </div>
-
-                                            <label for="price">Price:</label>
-                                            <input type="text" name="price" id="price">
-
-                                            <label for="status">Status:</label>
-                                            <select id="status" name="status">
-                                                <option value="Available">Available</option>
-                                                <option value="Unavailable">Unavailable</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="modal-footer mt-4">
-                                        <input id="btnInsertRoom" type="submit" value="Add" name="btnInsertRoom" class="btn btn-primary btn-lg w-100" data-dismiss="modal">
-                                    </div>
-                                </form>
+                                    Coming soon...
+                                </div>   
                             </div>
                         </div>
                     </div>
@@ -101,29 +55,22 @@
     </div>
     <hr>
     <div class="body_table overflow-auto">
-        <div class="">
-            <table class=" table-striped table_rooms
+        <div class="table-responsive">
+            <table class="table table-striped table_rooms
             table-hover	
             table-borderless">
                 <thead class="table-secondary">
                     <tr>
                         <th>#</th>
-                        <th>Name Room</th>
-                        <th>Kind</th>
-                        <th>Rating</th>
-                        <th>Id_location</th>
-                        <th>Adult</th>
-                        <th>Children</th>
-                        <th>Bedroom</th>
-                        <th>Bathroom</th>
-                        <th>Price</th>
-                        <th>Image</th>
-                        <th>Description</th>
-                        <th>Status</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Password</th>
+                        <th>Member</th>
                         <th>Tools</th>
                     </tr>
                 </thead>
-                <tbody class="table-group-divider" id="bodyRooms">
+                <tbody class="table-group-divider" id="bodyCustomers">
                     
                 </tbody>
                 <tfoot>

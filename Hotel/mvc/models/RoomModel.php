@@ -6,8 +6,32 @@ class RoomModel extends DB{
     public $statusRoom = Array();
     
     public function listAll(){
-        $qr = "SELECT * FROM tb_rooms, tb_locations WHERE `tb_rooms`.`id_location` = `tb_locations`.`id_location`";
-        $rows = mysqli_query($this->con, $qr);
+        $sql = "SELECT * FROM tb_rooms";
+        $rows = mysqli_query($this->con, $sql);
+        $list = array();
+
+        while ($row = mysqli_fetch_array($rows)) {
+            $list[] = $row;
+        }
+    
+        return $list;
+    }
+
+    public function listAllHistory(){
+        $sql = "SELECT * FROM tb_history";
+        $rows = mysqli_query($this->con, $sql);
+        $list = array();
+
+        while ($row = mysqli_fetch_array($rows)) {
+            $list[] = $row;
+        }
+    
+        return $list;
+    }
+
+    public function listAllReservation(){
+        $sql = "SELECT * FROM tb_room_reservations";
+        $rows = mysqli_query($this->con, $sql);
         $list = array();
 
         while ($row = mysqli_fetch_array($rows)) {
@@ -93,41 +117,48 @@ class RoomModel extends DB{
         return $list;
     }
 
-    public function insertRoom($nameRoom, $kind, $image , $price , $status){
+    public function insertRoom($nameRoom, $kind, $rating, $idLocation, $adult, $children, $bedroom, $bathroom, $price, $image, $description  , $status){
         $result = false;
-        
-        $sql = "INSERT INTO tb_rooms (nameRoom, kind, image ,price , status) VALUES ('$nameRoom', '$kind', '$image', '$price', '$status')";
+        $sql = "INSERT INTO `tb_rooms` (`id_room`, `nameRoom`, `kind`, `rating`, `id_location`, `adult`, `children`, `bedroom`, `bathroom`, `price`, `image`, `description`, `status`) 
+        VALUES (NULL, '$nameRoom','$kind','$rating', '$idLocation', '$adult', '$children', '$bedroom', '$bathroom', '$price', '$image', '$description', '$status')
+        ";
         if (mysqli_query($this->con,$sql)) {
             $result = true;
         };
-        return json_encode($result);
+        return $result;
     }
 
     public function deleteRoom($id){
         $result = false;
         
-        $sql = "DELETE FROM tb_rooms WHERE id = $id";
+        $sql = "DELETE FROM tb_rooms WHERE id_room = $id";
         if (mysqli_query($this->con,$sql)) {
             $result = true;
         };
-        return json_encode($result);
+        return $result;
     }
 
-    public function editRoom($id,$nameRoom, $kind, $image , $price , $status){
+    public function editRoom($id,$nameRoom, $kind, $rating, $idLocation, $adult, $children, $bedroom, $bathroom, $price, $image, $description, $status){
         $result = false;
-
         $sql=  "UPDATE tb_rooms 
                 SET nameRoom = '$nameRoom', 
                     kind = '$kind', 
-                    image = '$image', 
+                    rating = '$rating', 
+                    id_location = '$idLocation', 
+                    adult = '$adult', 
+                    children = '$children', 
+                    bedroom = '$bedroom', 
+                    bathroom = '$bathroom', 
                     price = '$price', 
+                    image = '$image', 
+                    description = '$description', 
                     status = '$status' 
-                WHERE id = $id";
+                WHERE id_room = $id";
                 
         if (mysqli_query($this->con,$sql)) {
             $result = true;
         };
-        return json_encode($result);
+        return $result;
     }
 
     public function detailRoom($id_room){

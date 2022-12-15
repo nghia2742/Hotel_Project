@@ -158,10 +158,7 @@ function deleteRoom() {
       action: "delete",
     },
     success: function (response) {
-      $("#R" + id)
-        .parent()
-        .parent()
-        .fadeOut("slow");
+      loadDataRooms();
       localStorage.setItem("id", "");
       //Notify Action
       notifyAction("Delete successfully!");
@@ -178,11 +175,18 @@ function editRoom(id) {
       id: id,
       nameRoom: $("#nameRoom" + id).val(),
       kind: $("#kind" + id).val(),
+      rating: $("#rating" + id).val(),
+      idLocation: $("#idLocation" + id).val(),
+      adult: $("#adult" + id).val(),
+      children: $("#children" + id).val(),
+      bedroom: $("#bedroom" + id).val(),
+      bathroom: $("#bathroom" + id).val(),
+      description: $("#description" + id).val(),
       image: $("#image" + id).val(),
       price: $("#price" + id).val(),
       status: $("#status" + id).val(),
     },
-    success: function () {
+    success: function (data) {
       notifyAction("Edit successfully!");
       loadDataRooms();
       $(".modal-backdrop").remove();
@@ -196,6 +200,36 @@ function loadDataRooms() {
     url: "/Hotel/Ajax/displayRooms",
     success: function (result) {
       $("#bodyRooms").html(result);
+    },
+  });
+}
+
+function loadDataCustomers() {
+  $.ajax({
+    type: "GET",
+    url: "/Hotel/Ajax/displayCustomers",
+    success: function (result) {
+      $("#bodyCustomers").html(result);
+    },
+  });
+}
+
+function loadDataHistory() {
+  $.ajax({
+    type: "GET",
+    url: "/Hotel/Ajax/displayHistory",
+    success: function (result) {
+      $("#bodyHistory").html(result);
+    },
+  });
+}
+
+function loadDataReservation() {
+  $.ajax({
+    type: "GET",
+    url: "/Hotel/Ajax/displayReservation",
+    success: function (result) {
+      $("#bodyReservation").html(result);
     },
   });
 }
@@ -475,6 +509,9 @@ function viewDetail(idReservation) {
 // -------------------------------------------
 $(document).ready(function () {
   loadDataRooms();
+  loadDataCustomers();
+  loadDataHistory();
+  loadDataReservation();
   loadSession();
   loadListRooms();
   $("#btnInsertRoom").click(function (e) {
@@ -485,7 +522,14 @@ $(document).ready(function () {
         action: "add",
         nameRoom: $("#nameRoom").val(),
         kind: $("#kind").val(),
+        rating: $("#rating").val(),
+        idLocation: $("#id_location").val(),
+        adult: $("#adult").val(),
+        children: $("#children").val(),
+        bedroom: $("#bedroom").val(),
+        bathroom: $("#bathroom").val(),
         image: $("#image").val(),
+        description: $("#description").val(),
         price: $("#price").val(),
         status: $("#status").val(),
       },

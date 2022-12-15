@@ -1450,7 +1450,10 @@ display: block;
 .management_body1 {
 	height: 100vh;
 	background-color: var(--blue-primary);
-
+	z-index: 1;
+	position: absolute;
+	top: 0;
+	left: 0;
 }
 
 .table-group .list-group-item {
@@ -1534,6 +1537,18 @@ display: block;
 .table_rooms {
 	font-size: medium;
 }
+.table_rooms th {
+	padding: 5px 20px;
+}
+
+.rowRoom {
+	height: 200px !important;
+}
+
+.formModal {
+	height: 400px;
+	overflow-y: auto;
+}
 
 .formModal #status {
 	font-size: 18px;
@@ -1562,7 +1577,7 @@ display: block;
 	position: absolute;
 	top: 0;
 	left: 0;
-	z-index: 1;
+	z-index: 2;
 	display:grid;
 	place-items:center;
 	height:fit-content;
@@ -1595,7 +1610,6 @@ display: block;
 .bar2{
 	width:100%;
 }
-
 
 .bar3{
 	width:75%;
@@ -1631,6 +1645,7 @@ display: block;
 .body_table {
 	height: 60vh;
 }
+
 /* ------------------------------------------HISTORY----------------------------------------- */
 .inputHistory {
 	width: 30%;
@@ -1639,6 +1654,7 @@ display: block;
 
 .statusHistory {
 	min-width: 125px;
+	vertical-align: middle !important;
 }
 
 /* --------------------------------------------------------------------------------------------- */
