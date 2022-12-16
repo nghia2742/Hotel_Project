@@ -526,6 +526,17 @@ class Ajax extends Controller
         }
            
     }
+
+    public function updateProfile(){   
+        if (isset($_POST['changeProfile'])) {
+            $name = $_POST['name'];
+            $email = $_POST['email'];
+            $phone = $_POST['phone'];
+
+            echo $this->CustomerModel->updateProfile($name, $email, $phone);
+        }
+           
+    }
     
     public function actionSignUp(){   
 

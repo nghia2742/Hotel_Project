@@ -115,7 +115,7 @@
                             <svg width="16" height="16" viewBox="0 0 18 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M10.8333 0H2.16667C0.975 0 0.0108336 0.975 0.0108336 2.16667L0 19.5C0 20.6917 0.964166 21.6667 2.15583 21.6667H15.1667C16.3583 21.6667 17.3333 20.6917 17.3333 19.5V6.5L10.8333 0ZM13 17.3333H4.33333V15.1667H13V17.3333ZM13 13H4.33333V10.8333H13V13ZM9.75 7.58333V1.625L15.7083 7.58333H9.75Z" fill="white"/>
                             </svg>
-                            <span class="table_item_text ml-4">Report</span>
+                            <span class="table_item_text ml-4">Statics</span>
                         </li>
                     </a>
                     <a href="#">

@@ -21,32 +21,42 @@
                       <label for="nameCus" class="form-label">Full name</label>
                       <input type="text" id="nameCus" class="form-control" value="<?php if (isset($_SESSION['signedIn'])){echo $_SESSION['nameCus'];} ?>">
                     </div>
-                    <div class="mb-3">
-                      <label for="emailCus" class="form-label">Email</label>
-                      <input type="text" id="emailCus" class="form-control" value="<?php if (isset($_SESSION['signedIn'])){echo $_SESSION['emailCus'];} ?>">
-                    </div>
+                    
                     <div class="mb-3">
                       <label for="phoneCus" class="form-label">Phone</label>
                       <input type="text" id="phoneCus" class="form-control" value="<?php if (isset($_SESSION['signedIn'])){echo $_SESSION['phoneCus'];} ?>">
                     </div>
 
-                    <button type="button" class="btn btnUpdatePass" data-bs-toggle="collapse" data-bs-target="#changePassword" aria-pressed="false" autocomplete="off">CHANGE YOUR PASSWORD</button>
+                    <div class="mb-3">
+                      <label for="emailCus" class="form-label">Email</label>
+                      <input type="text" id="emailCus" class="form-control" value="<?php if (isset($_SESSION['signedIn'])){echo $_SESSION['emailCus'];} ?>" readonly>
+                    </div>
+
+                    <div class="d-flex justify-content-around">
+                        <button type="button" class="btn btn-info text-light" id="saveProfile">SAVE PROFILE</button>
+                        <button type="button" class="btn btnUpdatePass" data-bs-toggle="collapse" data-bs-target="#changePassword" aria-pressed="false" autocomplete="off">CHANGE YOUR PASSWORD</button>
+                    </div>
 
                     <div class="collapse mt-3" id="changePassword">
                         <div class="card card-body p-5">
                             <div class="mb-3">
                                 <label for="curPassword" class="form-label">Current password</label>
-                                <input type="password" id="curPassword" class="form-control">
+                                <input type="password" id="curPassword" class="form-control password">
                             </div>
                             <div class="mb-3">
                                 <label for="newPassword" class="form-label">New password</label>
-                                <input type="password" id="newPassword" class="form-control">
+                                <input type="password" id="newPassword" class="form-control password">
                             </div>
                             <div class="mb-3">
                                 <label for="newPassword2nd" class="form-label">Confirm password</label>
-                                <input type="password" id="newPassword2nd" class="form-control">
+                                <input type="password" id="newPassword2nd" class="form-control password">
                             </div>
-
+                            <div class="form-check mt-3 ml-3">
+                                <input class="form-check-input" type="checkbox" id="showPass">
+                                <label class="form-check-label text-dark" for="showPass">
+                                    Show password
+                                </label>
+                            </div>
                             <div class="btn btn-lg btnUpdatePass mt-3" id="btnUpdatePass">Update</div>
                         </div>
                     </div>
@@ -56,4 +66,4 @@
         </div>
     </div>
 </div>
-<div class="notifyError animate__animated animate__fadeInRight"></div>
+<div class="notify animate__animated animate__fadeInRight"></div>

@@ -1129,6 +1129,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 .notify {
 	position: fixed;
+	z-index: 2;
 	height: fit-content;
 	width: fit-content;
 	min-width: 300px;
@@ -1573,6 +1574,7 @@ display: block;
 	position: relative;
 }
 
+/* ---------------------------------------SIDEBAR------------------------------------ */
 #btnMenuAdmin {
 	position: absolute;
 	top: 0;

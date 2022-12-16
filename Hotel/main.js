@@ -138,6 +138,14 @@ $(document).ready(function () {
     $("#input_location").focus();
   });
 
+  $("#showPass").click(function (e) { 
+    if ($("#showPass:checked").length == 1){
+      $(".password").attr("type","text");
+    } else {
+      $(".password").attr("type","password");
+    }
+  });
+
   dateSetting();
   priceBarSetting();
   getIdLocation();
@@ -219,7 +227,7 @@ function loadDataHistory() {
     type: "GET",
     url: "/Hotel/Ajax/displayHistory",
     success: function (result) {
-      $("#bodyHistory").html(result);
+      $("#manageHistory").html(result);
     },
   });
 }
@@ -569,8 +577,27 @@ $(document).ready(function () {
       $("#searchHistory").click();
     }
   });
+  // ----------- UPDATE PROFILE -----------------
+  $("#saveProfile").click(function (e) { 
+    $.ajax({
+      type: "POST",
+      url: "/Hotel/Ajax/updateProfile",
+      data: {
+        changeProfile: "true",
+        name: $("#nameCus").val(),
+        email: $("#emailCus").val(),
+        phone: $("#phoneCus").val()
+      },
+      success: function (data) {
+        if (data) {
+          $(".notify").addClass("notify--success");
+          notify("Update Successfully");
+        }
+      },
+    });
+  });
 
-  // ---- UPDATE PASS ----
+  // --------------- UPDATE PASS ----------------
   $("#btnUpdatePass").click(function (e) {
     if ($("#newPassword").val().length < 6) {
       $(".notify").addClass("notify--error");
@@ -588,7 +615,7 @@ $(document).ready(function () {
           success: function (data) {
             if (data) {
               $(".notify").addClass("notify--success");
-              notify("Your password updated");
+              notify("Your password is updated");
             } else {
               $(".notify").addClass("notify--error");
               notify("Your current password is wrong");

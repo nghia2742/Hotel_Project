@@ -14,9 +14,16 @@
             <div class="wrapper_form">
                 <input type="text" id="email" class="email mt-4 mb-2" name="email" placeholder="Email" value="" autocomplete="off"><br>
 
-                <input type="password" id="password" class="pwd  mt-4 mb-2" name="password" placeholder="Password" value=""><br>
+                <input type="password" id="password" class="pwd  mt-4 mb-2 password" name="password" placeholder="Password" value=""><br>
 
-                <input type="submit" id="signIn" name="signIn" value="Sign in" class="btn btnSubmit  text-light  mt-5">
+                <div class="form-check mt-3 ml-3">
+                    <input class="form-check-input" type="checkbox" id="showPass">
+                    <label class="form-check-label text-dark" for="showPass">
+                        Show password
+                    </label>
+                </div>
+
+                <input type="submit" id="signIn" name="signIn" value="Sign in" class="btn btnSubmit  text-light  mt-2">
             </div>
             <p class="text-dark text-center mt-4"> Have not an account yet?
                 <span>

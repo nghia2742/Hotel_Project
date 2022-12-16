@@ -69,6 +69,16 @@ class CustomerModel extends DB{
         }
         return false;
     }
+
+    public function updateProfile($name, $email, $phone) {
+        $sql = "UPDATE tb_customers 
+        SET `name` = '$name', `phone` = '$phone' 
+        WHERE email = '$email'";
+        if (mysqli_query($this->con, $sql)) {
+            return 'true';
+        }
+        return 'false';
+    }
     
     public function addNewCustomer($name,$email,$phone,$password,$member){
         $result = true;

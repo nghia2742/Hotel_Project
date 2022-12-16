@@ -46,7 +46,7 @@
                         <th>Tools</th>
                     </tr>
                 </thead>
-                <tbody class="table-group-divider" id="bodyHistory">
+                <tbody class="table-group-divider" id="manageHistory">
                     
                 </tbody>
                 <tfoot>
